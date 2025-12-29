@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>AJAX 예제</title>
+</head>
+<body>
+
+<h2>유저 정보 입력</h2>
+
+<input type="text" id="name" placeholder="이름">
+<input type="number" id="age" placeholder="나이">
+<button onclick="submitData()">전송</button>
+
+<div id="result"></div>
+
+<script>
+  function submitData() {
+    const data = {
+      name: document.getElementById("name").value,
+      age: parseInt(document.getElementById("age").value)
+    };
+
+    fetch('/test/form', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+            .then(res => res.json())
+            .then(user => {
+              document.getElementById("result").innerHTML =
+                      '이름: ' + user.name + '<br>나이: ' + user.age;
+            })
+            .catch(err => console.error(err));
+  }
+</script>
+
+</body>
+</html>
